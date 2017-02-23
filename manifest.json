@@ -35,7 +35,7 @@
         "type": "image/png"
       }],
   "background_color": "#dca6f7",
-  "start_url": "/index.html",
+  "start_url": "index.html",
   "display": "standalone",
   "display": "fullscreen",
   "orientation": "portrait",
