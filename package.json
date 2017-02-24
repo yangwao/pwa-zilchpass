@@ -18,6 +18,9 @@
   },
   "homepage": "https://github.com/yangwao/pwa-zilchpass#readme",
   "dependencies": {
-    "sw-precache": "^5.0.0"
+    "bootstrap": "^4.0.0-alpha.6",
+    "bootstrap-vue": "^0.8.2",
+    "sw-precache": "^5.0.0",
+    "vue": "^2.1.10"
   }
 }
