@@ -1,0 +1,23 @@
+{
+  "name": "pwa-zilchpass",
+  "version": "0.0.1",
+  "description": "pwa playground for generator",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "precache": "node_modules/sw-precache/cli.js --root=app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yangwao/pwa-zilchpass.git"
+  },
+  "author": "Matej Nemcek",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yangwao/pwa-zilchpass/issues"
+  },
+  "homepage": "https://github.com/yangwao/pwa-zilchpass#readme",
+  "dependencies": {
+    "sw-precache": "^5.0.0"
+  }
+}
