@@ -1,58 +1,98 @@
 <!doctype html>
-<html>
-  <head>
-    <title>BLAKE2s-js</title>
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
-    <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="manifest" href="manifest.json">
-  </head>
-  <style>
-    /* Taken from blake2.net */
-    html,body {
-      color: #000000;
-      background-color: white;
-      font-family: sans-serif;
-    }
-    h1 {
-      font-size:275%;
-    }
-    a:link {color:#aa0000; text-decoration:none;}
-    a:visited {color:#aa0000; text-decoration:none;}
-    a:hover {color:#dd0000; text-decoration:none}
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>BLAKE2s PWA</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="manifest" href="manifest.json">
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous"> -->
+  <link rel="stylesheet" href="bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <h3>Blake2s PWA</h3>
+      </div>
+      <div class="col">
+        (niceware soon™)
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p>no-downsaur edition<br>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <form>
+          <div class="form-group row">
+            <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">master secret</label>
+            <div class="col-sm-10">
+              <input type="password" class="form-control form-control-lg" id="input" placeholder="masterpass">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-sm">size</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control form-control-sm" id="digest-length" value="10" min="1" max="32">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">domain</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control form-control-lg" id="key" placeholder="domain">
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col">
+              <button type="button" class="btn btn-outline-success btn-lg btn-block" onclick="calculateDigest()">Digest =></button>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col">
+              <div class="form-group">
+                <textarea class="form-control" id="digest" rows="2"></textarea>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script>
+  function decodeUTF8(s) {
+    var i, d = unescape(encodeURIComponent(s)), b = new Uint8Array(d.length);
+    for (i = 0; i < d.length; i++) b[i] = d.charCodeAt(i);
+    return b;
+  }
 
-    #digest { font-family: monospace; }
-  </style>
+  function calculateDigest() {
+    // Get message converting to Unix line breaks.
+
+    var msg = document.getElementById('input').value.replace(/\r\n/g, '\n');
+    var key = document.getElementById('key').value;
+    var length = document.getElementById('digest-length').value;
+    try {
+      var h = new BLAKE2s(length, decodeUTF8(key));
+    } catch (e) {
+      alert("Error: " + e);
+    }
+    h.update(decodeUTF8(msg));
+    document.getElementById('digest').innerHTML = h.hexDigest();
+  }
+  </script>
   <script src="blake2s.min.js"></script>
-  <body>
-    <h1>Blake2s in js</h1>
-
-    <p>pass<br>
-    <input id=input cols=20></input><br>
-    <p>size <input id=digest-length type=number min=1 max=32 value=10></input>
-    <p>domain<br> <input id=key size=20></input>
-    <p><button onclick="calculateDigest()">Digest &rarr;</button><br> <span id=digest></span>
-
-    <script>
-      function decodeUTF8(s) {
-        var i, d = unescape(encodeURIComponent(s)), b = new Uint8Array(d.length);
-        for (i = 0; i < d.length; i++) b[i] = d.charCodeAt(i);
-        return b;
-      }
-
-      function calculateDigest() {
-        // Get message converting to Unix line breaks.
-        var msg = document.getElementById('input').value.replace(/\r\n/g, '\n');
-        var key = document.getElementById('key').value;
-        var length = document.getElementById('digest-length').value;
-        try {
-          var h = new BLAKE2s(length, decodeUTF8(key));
-        } catch (e) {
-          alert("Error: " + e);
-        }
-        h.update(decodeUTF8(msg));
-        document.getElementById('digest').innerHTML = h.hexDigest();
-      }
-    </script>
-    <script src="main.js"></script>
+  <script src="main.js"></script>
+  <!-- <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/bootstrap-vue/dist/bootstrap-vue.js"></script> -->
+  <!-- <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script> -->
+  <script src="jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script> -->
+  <script src="tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+  <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script> -->
+  <script src="bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 </body>
 </html>

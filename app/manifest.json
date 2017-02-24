@@ -1,6 +1,6 @@
 {
-  "name": "Blake2s-js",
-  "short_name": "Blake2s-js",
+  "name": "PWA Blake2s ",
+  "short_name": "PWA Blake2s",
   "icons": [{
         "src": "images/icons/icon-72x72.png",
         "sizes": "72x72",
