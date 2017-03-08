@@ -63,11 +63,14 @@
     </div>
   </div>
   <script>
-  function decodeUTF8(s) {
-    var i, d = unescape(encodeURIComponent(s)), b = new Uint8Array(d.length);
-    for (i = 0; i < d.length; i++) b[i] = d.charCodeAt(i);
-    return b;
-  }
+  // function decodeUTF8(s) {
+  //   var i, d = unescape(encodeURIComponent(s)), b = new Uint8Array(d.length);
+  //   for (i = 0; i < d.length; i++) b[i] = d.charCodeAt(i);
+  //   return b;
+  // }
+
+  var enc = new TextEncoder('windows-1250')
+  var dec = new TextDecoder('windows-1250')
 
   function calculateDigest() {
     // Get message converting to Unix line breaks.
@@ -76,12 +79,13 @@
     var key = document.getElementById('key').value;
     var length = document.getElementById('digest-length').value;
     try {
-      var h = new BLAKE2s(length, decodeUTF8(key));
+      var h = new BLAKE2s(length, enc.encode(key));
     } catch (e) {
       alert("Error: " + e);
     }
-    h.update(decodeUTF8(msg));
-    document.getElementById('digest').innerHTML = h.hexDigest();
+
+    h.update(enc.encode(msg));
+    document.getElementById('digest').innerHTML = dec.decode(h.digest())
   }
   </script>
   <script src="blake2s.min.js"></script>
